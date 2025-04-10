@@ -1,0 +1,250 @@
+/* Add these styles  */
+
+.loan-details {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+  
+  .loan-details span {
+    display: flex;
+    align-items: center;
+  }
+  /*
+  .loan-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+  }
+  
+  .approve-button {
+    padding: 0.5rem 1rem;
+    background-color: var(--success-color);
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  
+  .reject-button {
+    padding: 0.5rem 1rem;
+    background-color: var(--error-color);
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  */
+  .loan-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .approve-button,
+  .reject-button {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    color: white;
+  }
+  
+  .approve-button {
+    background-color: #4CAF50;
+  }
+  
+  .reject-button {
+    background-color: #f44336;
+  }
+  
+  .transaction-item {
+    position: relative;
+  }
+  
+  .transaction-amount {
+    margin-right: 120px; /* Space for buttons */
+  }
+
+
+    /* ADDED FOR LOANS */
+    /*loans */
+
+.loans-view {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.loan-form-container {
+  background: #f5f5f5;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.loan-form-container h3 {
+  margin-top: 0;
+}
+
+.contengrill {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 150px;
+  grid-auto-colums: 150px;
+  gap: 30px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0; /* Eliminamos el margen inferior ya que el gap del grid lo maneja */
+}
+
+.submit-button {
+  grid-column: 1 / -1; /* Hace que el botón ocupe todas las columnas */
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #45a049;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: black;
+  color: #fff;
+  background: #573b8a;
+  border-radius: 5px;
+  transition: .2s ease-in;
+  cursor: pointer;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.submit-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.submit-button:hover {
+  background-color: #45a049;
+}
+
+
+.loans-list-container {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.loans-list-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  background-color: #f2f2f2;
+  padding: 10px 15px;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+}
+
+.loans-list-scroll {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.loan-item {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+  align-items: center;
+}
+
+.loan-item:last-child {
+  border-bottom: none;
+}
+
+.loan-amount {
+  text-align: right;
+  font-weight: bold;
+}
+
+.loan-amount.positive {
+  color: #4CAF50;
+}
+
+.loan-amount.negative {
+  color: #f44336;
+}
+
+.loan-status {
+  text-align: center;
+  text-transform: capitalize;
+} /* FINISH LOANS SECTION*/
+  
+/*  ADDED FOR ADMIN PROFILE*/
+/* Loan Status Colors */
+.transaction-amount.pending {
+    color: #f59e0b;
+  }
+  
+  .transaction-amount.approved {
+    color: #10b981;
+  }
+  
+  .transaction-amount.rejected {
+    color: #ef4444;
+  }
+  
+  /* Loan Action Buttons */
+  .loan-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  
+  .approve-button {
+    background-color: #10b981;
+    color: white;
+    border: none;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+  
+  .reject-button {
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+  /* FINISHED ADMIN PROFILE*/

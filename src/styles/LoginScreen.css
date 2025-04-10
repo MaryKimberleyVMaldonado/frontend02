@@ -1,3 +1,4 @@
+/*
 body{
 	margin: 0;
 	padding: 0;
@@ -8,6 +9,18 @@ body{
 	font-family: 'Jost', sans-serif;
 	background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
 }
+	*/
+.contenedor{
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	font-family: 'Jost', sans-serif;
+	background-image: url(https://github.com/ecemgo/mini-samples-great-tricks/assets/13468728/5baf8325-ed69-40b0-b9d2-d8c5d2bde3b0);
+ }
+	
 .main{
 	width: 350px;
 	height: 500px;

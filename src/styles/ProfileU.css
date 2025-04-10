@@ -1,0 +1,53 @@
+/* Dashboard.css */
+.dashboard {
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    color: white;
+  }
+  
+  .dashboard-content {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 2rem;
+    width: 80%;
+    max-width: 1000px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+  }
+  
+  /* Client specific styles */
+  .client-dashboard {
+    background: linear-gradient(135deg, #6e8efb, #4a6cf7);
+  }
+  
+  /* Manager specific styles */
+  .manager-dashboard {
+    background: linear-gradient(135deg, #a777e3, #8e54e9);
+  }
+  
+  /* Profile Completion styling */
+  .profile-completion-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  .profile-completion-form {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2rem;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-completion-form h2 {
+    color: #573b8a;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }

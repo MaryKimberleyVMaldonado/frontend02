@@ -1,30 +1,16 @@
-//import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-/*
+import { createContext, useContext, useState, ReactNode } from "react";
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
-*/
-/*
+
 interface AuthContextType {
+  token: string | null;
+  accountType: string | null;
   isAuthenticated: boolean;
-  login: () => void;
+  register: (email: string, password: string, accountType: number) => Promise<void>;
+  login: (token: string, accountType: string) => void;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
-
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-
-  const login = () => setIsAuthenticated(true);
-  const logout = () => setIsAuthenticated(false);
-
-  return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, register }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
 
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
@@ -33,20 +19,24 @@ export const useAuth = (): AuthContextType => {
   }
   return context;
 };
-*/
-import { createContext, useContext, useState, ReactNode } from "react";
-//import { useNavigate } from "react-router-dom";
-import axios from 'axios'; // Asegúrate de tener axios instalado
 
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
+  const [accountType, setAccountType] = useState<string | null>(localStorage.getItem("accountType"));
 
-interface AuthContextType {
-  isAuthenticated: boolean;
-  login: () => void;
-  logout: () => void;
-  register: (email: string, password: string, accountType: number) => Promise<void>;
-}
+  const login = (newToken: string, newAccountType: string) => {
+    setToken(newToken);
+    setAccountType(newAccountType);
+    localStorage.setItem("token", newToken);
+    localStorage.setItem("accountType", newAccountType);
+  };
 
-const AuthContext = createContext<AuthContextType | null>(null);
+  const logout = () => {
+    setToken(null);
+    setAccountType(null);
+    localStorage.removeItem("token");
+    localStorage.removeItem("accountType");
+  };
 
   const register = async (email: string, password: string, accountType: number) => {
     try {
@@ -61,27 +51,18 @@ const AuthContext = createContext<AuthContextType | null>(null);
     }
   };
 
-
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-
-  const login = () => setIsAuthenticated(true);
-  const logout = () => setIsAuthenticated(false);
-
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, register }}>
+    <AuthContext.Provider
+      value={{
+        token,
+        accountType,
+        isAuthenticated: !!token,
+        login,
+        logout,
+        register,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
-
-
-
-export const useAuth = (): AuthContextType => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
-};
-

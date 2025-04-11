@@ -103,14 +103,6 @@ function ManagerDashboard() {
     }
   };
 
-  useEffect(() => {
-    if (user) {
-      fetchLoans();
-      fetchUserProfile();
-      fetchAllProfiles();
-    }
-  }, [user]);
-
   const handleApprove = async (loanId: number) => {
     try {
       await axios.get(`http://localhost:8080/api/loans/id/${loanId}/Approve`, {
@@ -132,6 +124,14 @@ function ManagerDashboard() {
       console.error('Error rejecting loan:', error);
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      fetchLoans();
+      fetchUserProfile();
+      fetchAllProfiles();
+    }
+  }, [user]);
 
   const TransactionsView = () => (
     <div className="view-content">
@@ -162,16 +162,10 @@ function ManagerDashboard() {
               </div>
               {loan.applicationStatus.status === 'Pending' && (
                 <div className="loan-actions">
-                  <button 
-                    className="approve-button"
-                    onClick={() => handleApprove(loan.id)}
-                  >
+                  <button className="approve-button" onClick={() => handleApprove(loan.id)}>
                     ✅ Approve
                   </button>
-                  <button 
-                    className="reject-button"
-                    onClick={() => handleReject(loan.id)}
-                  >
+                  <button className="reject-button" onClick={() => handleReject(loan.id)}>
                     ❌ Reject
                   </button>
                 </div>
@@ -234,31 +228,19 @@ function ManagerDashboard() {
       <div className="main-content">
         <nav className="sidebar">
           <ul className="nav-menu">
-            <li 
-              className={activeView === 'transactions' ? 'active' : ''}
-              onClick={() => setActiveView('transactions')}
-            >
+            <li className={activeView === 'transactions' ? 'active' : ''} onClick={() => setActiveView('transactions')}>
               <span className="nav-icon">🔄</span>
               <span className="nav-text">Loans</span>
             </li>
-            <li 
-              className={activeView === 'profile' ? 'active' : ''}
-              onClick={() => setActiveView('profile')}
-            >
+            <li className={activeView === 'profile' ? 'active' : ''} onClick={() => setActiveView('profile')}>
               <span className="nav-icon">👤</span>
               <span className="nav-text">Profile</span>
             </li>
-            <li 
-              className={activeView === 'allProfiles' ? 'active' : ''}
-              onClick={() => setActiveView('allProfiles')}
-            >
+            <li className={activeView === 'allProfiles' ? 'active' : ''} onClick={() => setActiveView('allProfiles')}>
               <span className="nav-icon">👥</span>
               <span className="nav-text">All Profiles</span>
             </li>
-            <li 
-              className={activeView === 'settings' ? 'active' : ''} 
-              onClick={() => setActiveView('settings')}
-            >
+            <li className={activeView === 'settings' ? 'active' : ''} onClick={() => setActiveView('settings')}>
               <span className="nav-icon">⚙️</span>
               <span className="nav-text">Configuration</span>
             </li>

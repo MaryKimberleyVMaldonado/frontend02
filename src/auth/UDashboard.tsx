@@ -3,13 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/UserScreen.css"
 
 const UDashboard: React.FC = () => {
-  const { logout } = useAuth();
-  const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
-    navigate("/login");
-  };
 
   return (
     

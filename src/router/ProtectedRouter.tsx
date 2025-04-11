@@ -1,80 +1,27 @@
-/*
-import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { Navigate } from "react-router-dom";
+import { ReactNode } from "react";
 
-const ProtectedRoute = () => {
-  const { isAuthenticated } = useAuth();
-  return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
-};
+interface ProtectedRouteProps {
+  children: ReactNode;
+  managerOnly?: boolean; // para rutas que solo Admins pueden ver
+}
 
-export default ProtectedRoute;
-*/
+const ProtectedRouter = ({ children, managerOnly = false }: ProtectedRouteProps) => {
+  const { isAuthenticated, user } = useAuth();
 
-// Removed duplicate import of Navigate
-
-/*
-const ProtectedRoute = ({ children, requiredRole }: { children: JSX.Element, requiredRole?: string }) => {
-  const { user, isAuthenticated } = useAuth();
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!isAuthenticated) {
+  // No está logueado → al login
+  if (!isAuthenticated || !user) {
     return <Navigate to="/login" replace />;
   }
 
-  if (requiredRole && user?.account_type !== requiredRole) {
+  // Si es una ruta solo para Admin, y el tipo no es Admin → lo echamos
+  if (managerOnly && user.accountType.type !== "Admin") {
     return <Navigate to="/unauthorized" replace />;
   }
 
-  return children;
-};
-*/
-/*
-interface ProtectedRouteProps {
-  children: JSX.Element;
-  managerOnly?: boolean;
-}
-
-const ProtectedRoute = ({ children, managerOnly = false }: ProtectedRouteProps) => {
-  const { user, isAuthenticated, isLoading } = useAuth();
-
-
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-
-  if (managerOnly && user?.account_type !== 'Manager') {
-    return <Navigate to="/dashboard" replace />; // Redirect managers away from client pages
-  }
-
-  return children;
+  // Todo bien → mostrale el contenido
+  return <>{children}</>;
 };
 
-export default ProtectedRoute;
-*/
-
-import { Navigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-
-interface ProtectedRouteProps {
-  children: React.ReactNode;
-  managerOnly?: boolean;
-}
-
-const ProtectedRoute = ({ children, managerOnly = false }: ProtectedRouteProps) => {
-  const { isAuthenticated, accountType } = useAuth();
-
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-
-  if (managerOnly && accountType !== 'Admin') {
-    return <Navigate to="/unauthorized" replace />;
-  }
-
-  return children;
-};
-
-export default ProtectedRoute;
+export default ProtectedRouter;

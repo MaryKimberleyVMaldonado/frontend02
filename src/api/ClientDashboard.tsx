@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import '../styles/bank.css';
 import '../components/LogoutButton';
-import { handleLogout } from '../components/LogoutButton';
+import LogoutButton from '../components/LogoutButton';
 import '../styles/Loans.css'
 
 function ClientDashboard() {
@@ -302,7 +302,7 @@ function ClientDashboard() {
             <h3>Login</h3>
             <p>Log out session.</p>
           </div>
-          <button className="text-button" onClick={handleLogout}>Click here</button>
+          <LogoutButton className="text-button" />
         </div>
       </div>
     </div>

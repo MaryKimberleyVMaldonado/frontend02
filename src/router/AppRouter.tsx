@@ -1,57 +1,49 @@
 import { Routes, Route } from "react-router-dom";
 import LoginScreen from "../auth/LoginScreen";
-import UDashboard from "../auth/UDashboard";
-import ProtectedRouter from "./ProtectedRouter";
 import ProfileCompletion from "../api/ProfileCompletion";
 import ClientDashboard from "../api/ClientDashboard";
 import ManagerDashboard from "../api/ManagerDashboard";
+import ProtectedRouter from "./ProtectedRouter";
 
 const AppRouter = () => {
   return (
     <Routes>
-    <Route path="/login" element={<LoginScreen />} />
-    <Route path="/" element={<LoginScreen />} />
-    <Route path="/javengers-dashboardc" element={<ClientDashboard/>} /> {/* CHANGE TO PRIVATE ROUTE*/}
-        <Route path="/javengers-dashboarda" element={<ManagerDashboard/>} /> {/* CHANGE TO PRIVATE ROUTE*/}
-        <Route path="/uprofile" element={<ProfileCompletion/>} /> {/* CHANGE TO PRIVATE ROUTE*/}   
-    
-    <Route element={
-      <ProtectedRouter>
-        <Route path="/udashboard" element={<UDashboard />} /> {/*ELIMINATE*/}
+      {/* Rutas p�blicas */}
+      <Route path="/login" element={<LoginScreen />} />
+      <Route path="/" element={<LoginScreen />} />
 
-      </ProtectedRouter>
-    } />
-  </Routes>
+      {/* Rutas protegidas */}
+      <Route
+        path="/javengers-dashboardc"
+        element={
+          <ProtectedRouter>
+            <ClientDashboard />
+          </ProtectedRouter>
+        }
+      />
+
+      <Route
+        path="/javengers-dashboarda"
+        element={
+          <ProtectedRouter managerOnly={true}>
+            <ManagerDashboard />
+          </ProtectedRouter>
+        }
+      />
+
+      <Route
+        path="/uprofile"
+        element={
+          <ProtectedRouter>
+            <ProfileCompletion />
+          </ProtectedRouter>
+        }
+      />
+
+      {/* P�gina de no autorizado (opcional) */}
+      <Route path="/unauthorized" element={<h1>403 - Access Denied</h1>} />
+    </Routes>
   );
 };
 
 export default AppRouter;
-
-/*
-
-
-
-<Routes>
-  <Route path="/login" element={<LoginScreen />} />
-  <Route path="/udashboard" element={
-    <ProtectedRouter>
-      <UDashboard />
-    </ProtectedRouter>
-  } />
-  <Route path="/mdashboard" element={
-    <ProtectedRouter>
-      <UDashboard />
-    </ProtectedRouter>
-  } />
-  <Route path="/admin" element={
-    <ProtectedRouter requiredRole="Manager">
-      <AdminPanel />
-    </ProtectedRouter>
-  } />
-</Routes>
-
-
-
-
-
-*/

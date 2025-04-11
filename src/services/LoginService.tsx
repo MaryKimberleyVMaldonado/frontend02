@@ -1,24 +1,19 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:8080/api/auth";
-
+// En este servicio no guardamos tokens ni nada, solo mandamos login y vemos si responde bien
 class LoginService {
   async loginUser(email: string, password: string): Promise<boolean> {
     try {
-      const response = await axios.post(`${API_BASE_URL}/login`, {
+      const response = await axios.post("http://localhost:8080/api/auth/login", {
         email,
         password
-    }, {
-        withCredentials: true // 👈 esto es esencial
+      }, {
+        withCredentials: true // \U0001f448 NECESARIO para mantener la sesi�n
       });
 
-      if (response.data === "Login successful") {
-        return true;
-      }
-
-      return false;
-    } catch (error: any) {
-      console.error("Login error:", error.response?.data || error.message);
+      return response.status === 200;
+    } catch (error) {
+      console.error("Login error:", error);
       return false;
     }
   }

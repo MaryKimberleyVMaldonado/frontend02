@@ -28,7 +28,7 @@ interface Loan {
 }
 
 interface UserProfile {
-  id: number;
+  id?: number;
   firstName: string;
   lastName: string;
   phoneNumber: string;
@@ -41,6 +41,13 @@ function ManagerDashboard() {
   const [activeView, setActiveView] = useState('transactions');
   const [loans, setLoans] = useState<Loan[]>([]);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [newProfile, setNewProfile] = useState<UserProfile>({
+    firstName: '',
+    lastName: '',
+    phoneNumber: '',
+    dateOfBirth: '',
+    creditScore: 0
+  });
   const [allProfiles, setAllProfiles] = useState<UserProfile[]>([]);
   const [loading, setLoading] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
@@ -74,16 +81,10 @@ function ManagerDashboard() {
     }
   };
 
-  const createUserProfile = async () => {
+  const createUserProfile = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
-      const defaultProfile = {
-        firstName: "New",
-        lastName: "User",
-        phoneNumber: "0000000000",
-        dateOfBirth: "2000-01-01",
-        creditScore: 600
-      };
-      const response = await axios.post("http://localhost:8080/api/user-profiles/me", defaultProfile, {
+      const response = await axios.post("http://localhost:8080/api/user-profiles/me", newProfile, {
         withCredentials: true,
       });
       setUserProfile(response.data);
@@ -111,27 +112,31 @@ function ManagerDashboard() {
     }
   }, [user]);
 
-  const handleApprove = async (loanId: number) => {
-    try {
-      await axios.get(`http://localhost:8080/api/loans/id/${loanId}/Approve`, {
-        withCredentials: true,
-      });
-      fetchLoans();
-    } catch (error) {
-      console.error('Error approving loan:', error);
-    }
-  };
-
-  const handleReject = async (loanId: number) => {
-    try {
-      await axios.get(`http://localhost:8080/api/loans/id/${loanId}/Reject`, {
-        withCredentials: true,
-      });
-      fetchLoans();
-    } catch (error) {
-      console.error('Error rejecting loan:', error);
-    }
-  };
+  const ProfileView = () => (
+    <div className="view-content">
+      <h2>User Profile</h2>
+      {userProfile ? (
+        <div className="profile-card">
+          <p><strong>Name:</strong> {userProfile.firstName} {userProfile.lastName}</p>
+          <p><strong>Phone:</strong> {userProfile.phoneNumber}</p>
+          <p><strong>Date of Birth:</strong> {userProfile.dateOfBirth}</p>
+          <p><strong>Credit Score:</strong> {userProfile.creditScore}</p>
+        </div>
+      ) : (
+        <form className="profile-form" onSubmit={createUserProfile}>
+          <p>Profile not found. Create one:</p>
+          <input type="text" placeholder="First Name" value={newProfile.firstName} onChange={(e) => setNewProfile({ ...newProfile, firstName: e.target.value })} required />
+          <input type="text" placeholder="Last Name" value={newProfile.lastName} onChange={(e) => setNewProfile({ ...newProfile, lastName: e.target.value })} required />
+          <input type="text" placeholder="Phone Number" value={newProfile.phoneNumber} onChange={(e) => setNewProfile({ ...newProfile, phoneNumber: e.target.value })} required />
+          <input type="date" value={newProfile.dateOfBirth} onChange={(e) => setNewProfile({ ...newProfile, dateOfBirth: e.target.value })} required />
+          <input type="number" placeholder="Credit Score" value={newProfile.creditScore} onChange={(e) => setNewProfile({ ...newProfile, creditScore: Number(e.target.value) })} required />
+          <button type="submit" className="create-profile-button">
+            \u2795 Create Profile
+          </button>
+        </form>
+      )}
+    </div>
+  );
 
   const TransactionsView = () => (
     <div className="view-content">
@@ -160,45 +165,8 @@ function ManagerDashboard() {
               <div className={`transaction-amount ${loan.applicationStatus.status.toLowerCase()}`}>
                 {loan.applicationStatus.status}
               </div>
-              {loan.applicationStatus.status === 'Pending' && (
-                <div className="loan-actions">
-                  <button 
-                    className="approve-button"
-                    onClick={() => handleApprove(loan.id)}
-                  >
-                    \u2705 Approve
-                  </button>
-                  <button 
-                    className="reject-button"
-                    onClick={() => handleReject(loan.id)}
-                  >
-                    \u274c Reject
-                  </button>
-                </div>
-              )}
             </div>
           ))}
-        </div>
-      )}
-    </div>
-  );
-
-  const ProfileView = () => (
-    <div className="view-content">
-      <h2>User Profile</h2>
-      {userProfile ? (
-        <div className="profile-card">
-          <p><strong>Name:</strong> {userProfile.firstName} {userProfile.lastName}</p>
-          <p><strong>Phone:</strong> {userProfile.phoneNumber}</p>
-          <p><strong>Date of Birth:</strong> {userProfile.dateOfBirth}</p>
-          <p><strong>Credit Score:</strong> {userProfile.creditScore}</p>
-        </div>
-      ) : (
-        <div>
-          <p>Profile not found.</p>
-          <button className="create-profile-button" onClick={createUserProfile}>
-            \u2795 Create Profile
-          </button>
         </div>
       )}
     </div>
@@ -234,32 +202,20 @@ function ManagerDashboard() {
       <div className="main-content">
         <nav className="sidebar">
           <ul className="nav-menu">
-            <li 
-              className={activeView === 'transactions' ? 'active' : ''}
-              onClick={() => setActiveView('transactions')}
-            >
-              <span className="nav-icon">\U0001f504</span>
+            <li className={activeView === 'transactions' ? 'active' : ''} onClick={() => setActiveView('transactions')}>
+              <span className="nav-icon">{String.fromCodePoint(0x1f504)}</span>
               <span className="nav-text">Loans</span>
             </li>
-            <li 
-              className={activeView === 'profile' ? 'active' : ''}
-              onClick={() => setActiveView('profile')}
-            >
-              <span className="nav-icon">\U0001f464</span>
+            <li className={activeView === 'profile' ? 'active' : ''} onClick={() => setActiveView('profile')}>
+              <span className="nav-icon">{String.fromCodePoint(0x1f464)}</span>
               <span className="nav-text">Profile</span>
             </li>
-            <li 
-              className={activeView === 'allProfiles' ? 'active' : ''}
-              onClick={() => setActiveView('allProfiles')}
-            >
-              <span className="nav-icon">\U0001f465</span>
+            <li className={activeView === 'allProfiles' ? 'active' : ''} onClick={() => setActiveView('allProfiles')}>
+              <span className="nav-icon">{String.fromCodePoint(0x1f465)}</span>
               <span className="nav-text">All Profiles</span>
             </li>
-            <li 
-              className={activeView === 'settings' ? 'active' : ''} 
-              onClick={() => setActiveView('settings')}
-            >
-              <span className="nav-icon">\u2699\ufe0f</span>
+            <li className={activeView === 'settings' ? 'active' : ''} onClick={() => setActiveView('settings')}>
+              <span className="nav-icon">{String.fromCodePoint(0x2699)}</span>
               <span className="nav-text">Configuration</span>
             </li>
           </ul>
